@@ -2,12 +2,10 @@
 using DevFreela.Application.Services.Interfaces;
 using DevFreela.Application.ViewModels;
 using DevFreela.Core.Entities;
-using Infrastructure.Persistence;
+using DevFreela.Infrastructure.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DevFreela.Application.Services.Implementations
 {
@@ -18,9 +16,10 @@ namespace DevFreela.Application.Services.Implementations
         {
             _dbContext = dbContext;
         }
+
         public int Create(NewProjectInputModel inputModel)
         {
-            var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreeLancer, inputModel.TotalCost);
+            var project = new Project(inputModel.Title, inputModel.Description, inputModel.IdClient, inputModel.IdFreelancer, inputModel.TotalCost);
 
             _dbContext.Projects.Add(project);
 
@@ -63,7 +62,9 @@ namespace DevFreela.Application.Services.Implementations
         {
             var project = _dbContext.Projects.SingleOrDefault(p => p.Id == id);
 
-            var projectDetalisViewModel = new ProjectDetailsViewModel(
+            if (project == null) return null;
+
+            var projectDetailsViewModel = new ProjectDetailsViewModel(
                 project.Id,
                 project.Title,
                 project.Description,
@@ -72,7 +73,7 @@ namespace DevFreela.Application.Services.Implementations
                 project.FinishedAt
                 );
 
-            return projectDetalisViewModel;
+            return projectDetailsViewModel;
         }
 
         public void Start(int id)

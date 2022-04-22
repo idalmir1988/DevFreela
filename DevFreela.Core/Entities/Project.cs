@@ -1,19 +1,17 @@
 ﻿using DevFreela.Core.Enums;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DevFreela.Core.Entities
 {
     public class Project : BaseEntity
     {
-        public Project(string title, string description, int idCliente, int idFreelancer, decimal totalCost)
+        public Project(string title, string description, int idClient, int idFreelancer, decimal totalCost)
         {
             Title = title;
             Description = description;
-            IdCliente = idCliente;
+            IdClient = idClient;
             IdFreelancer = idFreelancer;
             TotalCost = totalCost;
 
@@ -24,7 +22,7 @@ namespace DevFreela.Core.Entities
 
         public string Title { get; private set; }
         public string Description { get; private set; }
-        public int IdCliente { get; private set; }
+        public int IdClient { get; private set; }
         public int IdFreelancer { get; private set; }
         public decimal TotalCost { get; private set; }
         public DateTime CreatedAt { get; private set; }
@@ -35,11 +33,10 @@ namespace DevFreela.Core.Entities
 
         public void Cancel()
         {
-            if (Status == ProjectStatusEnum.InProgress || Status == ProjectStatusEnum.Created)
+            if (Status == ProjectStatusEnum.InProgress || Status == ProjectStatusEnum.InProgress)
             {
                 Status = ProjectStatusEnum.Cancelled;
             }
-            
         }
 
         public void Start()
@@ -50,6 +47,7 @@ namespace DevFreela.Core.Entities
                 StartedAt = DateTime.Now;
             }
         }
+
         public void Finish()
         {
             if (Status == ProjectStatusEnum.InProgress)
